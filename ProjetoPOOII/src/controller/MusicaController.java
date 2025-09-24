@@ -41,7 +41,9 @@ public class MusicaController {
                 + "  FROM tbartista a "
                 + "  JOIN tbcolaboracao c ON a.pkartista = c.fk_artista "
                 + "  WHERE c.fk_musica = m.pkmusica) AS artistas "
-                + "FROM tbmusica m ";
+                + " FROM tbmusica m "
+                + " LEFT JOIN tbcolaboracao c ON m.pkmusica = c.fk_musica "
+                + " LEFT JOIN tbartista a ON a.pkartista = c.fk_artista";
 
         if (!filtro.isEmpty()) {
             switch (opcaoFiltro) {
@@ -57,7 +59,8 @@ public class MusicaController {
             }
         }
 
-        sql += " ORDER BY m.pkmusica";
+        sql += " GROUP BY 1,2,3,4,5 "
+                + " ORDER BY m.pkmusica";
 
         GerenciadorConexao gerenciador = new GerenciadorConexao();
         PreparedStatement comando = null;
